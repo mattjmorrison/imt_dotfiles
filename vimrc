@@ -80,6 +80,9 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle 'wellle/targets.vim'
  NeoBundle 'tpope/vim-fireplace'
  NeoBundle 'kien/rainbow_parentheses.vim'
+ NeoBundle 'junegunn/vim-easy-align'
+ NeoBundle 'guns/vim-sexp'
+ NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
  NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
@@ -239,7 +242,6 @@ let g:airline#extensions#virtualenv#enabled = 0
 " }2
 " Key mappings {2
 let mapleader="9"
-imap jk <Esc>
 map ss :setlocal spell!<CR>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>no :NERDTreeFind<CR>
@@ -250,7 +252,7 @@ nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
-nnoremap <Esc> :nohlsearch<CR>
+" nnoremap <Esc> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -442,6 +444,11 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 " }2
+" Easy Align {{{2
+"-----------------------------------------------------------------------------------
+" Start interactive EasyAlign in visual mode
+vmap <Enter> <Plug>(EasyAlign)
+"}}}2
 " }1
 
 " Misc Functions {1
@@ -716,6 +723,4 @@ function! InvokeTestFileByType()
         exe ':RunAllQunitTests'
     endif
 endfunction
-
-
 " }1
