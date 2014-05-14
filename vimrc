@@ -252,7 +252,7 @@ nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
-" nnoremap <Esc> :nohlsearch<CR>
+nnoremap <Esc><Esc> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
