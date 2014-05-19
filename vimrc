@@ -83,6 +83,7 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle 'junegunn/vim-easy-align'
  NeoBundle 'guns/vim-sexp'
  NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
+ NeoBundle 'SirVer/ultisnips'
  NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
@@ -290,6 +291,12 @@ cmap w!! w !sudo tee %
 " }1
 
 " Plugin Configurations {1
+" UtilSnips confiruration {2
+let g:UltiSnipsEditSplit="vertical"
+map <f10> :UltiSnipsEdit<cr>
+let g:UltiSnipsExpandTrigger="<f11>"
+let g:UltiSnipsListSnippets="<f12>"
+" }2
 " Syntastic configurations use :help syntastic.txt {2
 "-----------------------------------------------------------------------------------
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
