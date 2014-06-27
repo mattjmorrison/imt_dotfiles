@@ -93,10 +93,12 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle 'Yggdroot/indentLine'
  NeoBundle 'wellle/targets.vim'
  NeoBundle 'tpope/vim-fireplace'
+ NeoBundle 'thinca/vim-qfreplace'
  NeoBundle 'junegunn/vim-easy-align'
  NeoBundle 'guns/vim-sexp'
  NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
  NeoBundle 'amdt/vim-niji'
+ NeoBundle 'lukaszkorecki/CoffeeTags'
  NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
@@ -258,8 +260,8 @@ map z= :Unite spell_suggest<CR>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>no :NERDTreeFind<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>ff :CtrlP<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
@@ -435,29 +437,29 @@ let g:indentLine_color_term = 239
 let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*', 'start*']
 let g:indentLine_fileTypeExclude = ['text']
 " }}}2
-" Rainbow Parentheses settings {2
-"-----------------------------------------------------------------------------------
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['red',         'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
+" Rainbow Parentheses (niji) settings {{{2
+"-------------------------------------------------------------------------
+" Color pairs are ctermfg, guifg
+let g:niji_dark_colours = [
+    \ [32 , 66],
+    \ [209, 66],
+    \ [86 , 66],
+    \ [18 , 66],
+    \ [154, 66],
+    \ [58 , 66],
+    \ [166, 66],
+    \ [34, 66],
+    \ [191, 66],
+    \ [57, 66],
+    \ [161, 66],
+    \ [48, 66],
+    \ [208, 66],
+    \ [33, 66],
+    \ [197, 66],
+    \ [49, 66],
     \ ]
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-" }2
+nnoremap <Leader>rc :call niji#highlight()<CR>
+" }}}2
 " Easy Align {{{2
 "-----------------------------------------------------------------------------------
 " Start interactive EasyAlign in visual mode
