@@ -295,6 +295,7 @@ xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
 nnoremap Y y$
 nnoremap <Leader>ev :edit $MYVIMRC<CR>
 nnoremap <Leader>sc :!aspell -c %<CR>
+nnoremap <Leader>us :call MakeUnderscore()<CR>
 " --- Shortcuts for quickfix as it was broken for some reason
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> :.cc<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> o :.cc<CR>
@@ -484,11 +485,11 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'ignore_pattern', join([
-      \ '\.DS_Store/', 
-      \ 'node_modules/', 
-      \ '\.git/', 
-      \ '\.bak', 
-      \ '\.swp', 
+      \ '\.DS_Store/',
+      \ 'node_modules/',
+      \ '\.git/',
+      \ '\.bak',
+      \ '\.swp',
       \ '\.pyc',
       \ ], '\|'))
 " }}}3
@@ -823,6 +824,29 @@ function! s:Repl()
 endfunction
 vmap <silent> <expr> p <sid>Repl()
 " }2
+" Under score test name {2
+"-----------------------------------------------------------------------------------
+function! MakeUnderscore()
+python << endPython
+
+import vim
+
+def underscore_test_name():
+    current_line = vim.current.line
+    test_start = current_line.find("test")
+    test_end = current_line.find("(")
+    test_name = current_line[test_start:test_end]
+    test_name_underscored = test_name.replace(" ", "_")
+    cursor_pos = vim.current.window.cursor
+    vim.current.buffer[cursor_pos[0] - 1] = current_line.replace(test_name, test_name_underscored)
+
+underscore_test_name()
+
+endPython
+endfunction
+
+command! UnderscoreTest call MakeUnderscore()
+" }2
 " }1
 
 " Key Bindings For The Others (Everyone who is not Jarrod) AT IMT {1
@@ -863,6 +887,7 @@ nmap<Leader>s ysiw
 nnoremap<Leader>u :GundoToggle<CR>
 nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
 xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
+nnoremap <Leader>us :call MakeUnderscore()<CR>
 " --- Emacs keys in insert mode
 " May the programming gods forgive me for these four lines
 imap <C-e> <C-o>$
