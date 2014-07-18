@@ -104,6 +104,7 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}
  NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}
+ NeoBundle 'tpope/vim-dispatch'
 " }2
 
 " Auto install the plugins {{{2
@@ -172,6 +173,7 @@ set ttimeoutlen=50                     " Fix delay when escaping from insert wit
 set noshowmode                         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set showbreak=↪\
 set synmaxcol=256
+" autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
 " }2
 " Set the minimum number of lines above and below the cursor {2
 "-----------------------------------------------------------------------------------
