@@ -70,6 +70,7 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle 'Lokaltog/vim-easymotion'
  NeoBundle 'scrooloose/syntastic'
  NeoBundle 'kchmck/vim-coffee-script'
+ NeoBundle 'kien/ctrlp.vim'
  NeoBundle 'tpope/vim-commentary'
  NeoBundle 'davidhalter/jedi-vim'
  NeoBundle 'mhinz/vim-startify'
@@ -262,8 +263,8 @@ map z= :Unite spell_suggest<CR>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>no :NERDTreeFind<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
-nnoremap<Leader>ff :<C-u>Unite -start-insert file_rec/async:!<CR>
-nnoremap <Leader>b :Unite buffer<CR>
+nnoremap <Leader>ff :CtrlP<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
@@ -353,6 +354,17 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
 " }}}2
+"Ctrlp configurations {2
+"-----------------------------------------------------------------------------------
+let g:ctrlp_custom_ignore = 'node_modules$\|xmlrunner$\|.DS_Store|.git|.bak|.swp|.pyc'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_max_height = 18
+let g:ctrlp_open_multiple_files = '1vjr'
+let g:ctrlp_buffer_func = { 'enter': 'MyCtrlPMappings' }
+func! MyCtrlPMappings()
+ nnoremap <buffer> <silent> <F6> :call <sid>DeleteBuffer()<cr>
+endfunc
+" }2
 " Exuberant ctags configurations {2
 "-----------------------------------------------------------------------------------
 " Vim will look for a ctags file in the current directory and continue
@@ -377,6 +389,7 @@ let g:jedi#rename_command = "<leader>rn"
 " }2
 " Startify configurations {2
 "-----------------------------------------------------------------------------------
+let g:ctrlp_reuse_window = 'startify'
 let g:startify_change_to_dir = 0
 " Highlight the acsii banner with red font
 hi StartifyHeader ctermfg=124
@@ -867,8 +880,10 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
-nnoremap<Leader>ff :<C-u>Unite -start-insert file_rec/async:!<CR>
-nnoremap <Leader>fb :Unite buffer<CR>
+nnoremap <Leader>ff :CtrlP<CR>
+map <Leader>fs :CtrlPTag<CR>
+map <Leader>fd :CtrlPCurFile<CR>
+map <Leader>fb :CtrlPBuffer<CR>
 noremap <Leader>sp :set spell spelllang=en_us<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
 map <Leader>a :Ack!<space>
