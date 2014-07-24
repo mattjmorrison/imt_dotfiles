@@ -50,6 +50,7 @@ NeoBundle 'Shougo/neobundle.vim'
        \    },
        \ }
  NeoBundle 'Shougo/unite.vim'
+ " Unite sources
  NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload': {'unite_sources': 'colorscheme'}}
  NeoBundleLazy 'ujihisa/unite-locate', {'autoload': {'unite_sources': 'locate'}}
  NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
@@ -57,7 +58,7 @@ NeoBundle 'Shougo/neobundle.vim'
  NeoBundle 'majkinetor/unite-cmdmatch'
  NeoBundle 'kopischke/unite-spell-suggest'
  NeoBundle 'bkad/CamelCaseMotion'
- NeoBundle 'Shougo/neocomplcache.vim'
+ NeoBundle 'Shougo/neocomplete.vim'
  NeoBundle 'Raimondi/delimitMate'
  NeoBundle 'scrooloose/nerdtree'
  NeoBundle 'JarrodCTaylor/vim-256-color-schemes'
@@ -320,19 +321,38 @@ let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
                      \ 'passive_filetypes': ['html', 'handlebars'] }
 " }2
-" Neocomplcache configurations {2
+" Neocomplete {{{2
 "-----------------------------------------------------------------------------------
-let g:neocomplcache_enable_at_startup=1
-" To make compatible with jedi
+let g:neocomplete#enable_at_startup = 1
 let g:jedi#auto_vim_configuration = 0
-if !exists('g:neocomplcache_force_omni_patterns')
-      let g:neocomplcache_force_omni_patterns = {}
-  endif
-let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
-let g:neocomplcache_force_overwrite_completefunc = 1
-let g:neocomplcache_auto_completion_start_length = 99
+" To make compatible with jedi
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+
+let g:neocomplete#sources#omni#input_patterns.python='[^. \t]\.\w*'
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#auto_completion_start_length = 99
 set completeopt-=preview
-" }2
+
+let g:neocomplete#enable_smart_case = 1
+" This refresh may be too heavy weight!!
+let g:neocomplete#enable_refresh_always = 1
+let g:neocomplete#max_list = 30
+" let g:neocomplete#min_keyword_length = 1
+" let g:neocomplete#sources#syntax#min_keyword_length = 1
+let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
+
+" disable the auto select feature by default to speed up writing without obstacles (is optimal for certain situations)
+let g:neocomplete#enable_auto_select = 0
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+
+" }}}2
 " Exuberant ctags configurations {2
 "-----------------------------------------------------------------------------------
 " Vim will look for a ctags file in the current directory and continue
@@ -463,7 +483,7 @@ let g:unite_split_rule = 'botright'
 let g:unite_force_overwrite_statusline = 0
 let g:unite_winheight = 15
 let g:unite_source_history_yank_enable = 1
-let g:unite_prompt = '──➤  '
+let g:unite_prompt = '──➤ '
 let g:unite_update_time = 200
 let g:unite_source_file_rec_max_cache_files = 0
 let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
@@ -472,15 +492,17 @@ let g:unite_source_file_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
 let g:unite_source_directory_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.DS_Store/',
-      \ 'node_modules/',
-      \ '\.git/',
-      \ '\.bak',
-      \ '\.swp',
-      \ '\.pyc',
-      \ ], '\|'))
+call unite#custom#source('file_rec/async', 'ignore_pattern', '\%(^\|/\)\.$\|\~$\|\.\%(o\|exe\|dll\|bak\|DS_Store\|zwc\|pyc\|sw[po]\|class\)$'.
+            \'\|\%(^\|/\)\%(\.hg\|coverage\|node_modules\|\.git\|\.bzr\|\.svn\|tags\%(-.*\)\?\)\%($\|/\)')
+" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+"       \ 'ignore_pattern', join([
+"       \ '\.DS_Store/',
+"       \ 'node_modules/',
+"       \ '\.git/',
+"       \ '\.bak',
+"       \ '\.swp',
+"       \ '\.pyc',
+"       \ ], '\|'))
 " }}}3
 " Unite autocmd FileType settings {{{3
 autocmd FileType unite call s:unite_buffer_settings()
@@ -505,7 +527,7 @@ nnoremap <Leader>sf :Unite fold<CR>
 nnoremap <Leader>sj :Unite jump<CR>
 nnoremap <Leader>sp ]s :Unite spell_suggest<CR>
 nnoremap <LocalLeader>c :Unite colorscheme -auto-preview<CR>
-nnoremap <Leader>nu :<C-u>Unite neobundle/update -log -wrap -auto-quit<CR>
+nnoremap <Leader>nu :<C-u>Unite neobundle/update -log -vertical -auto-quit<CR>
 " }}}3
 " Unite Menus {{{3
 let g:unite_source_menu_menus = {}
