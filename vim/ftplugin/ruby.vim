@@ -1,7 +1,5 @@
 "===================================================================================
-"         FILE:  ruby.vim
 "  DESCRIPTION:  Settings that load only for files with the .rb extension
-"       AUTHOR:  IMT Apps
 "===================================================================================
 "
 " Settings for proper indentation
