@@ -261,6 +261,9 @@ nnoremap<Leader>u :GundoToggle<CR>
 nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
 xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
 nnoremap <Leader>us :call MakeUnderscore()<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <Space>g :GrepQuickfix<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <Space>v :GrepQuickfixV<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <Space>r :QuickfixRestore<CR>
 " --- Emacs keys in insert mode
 " May the programming gods forgive me for these four lines
 imap <C-e> <C-o>$
@@ -642,7 +645,7 @@ nmap <LocalLeader> [menu]
 " Menus {{{4
 nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR><Esc>
 " Keyboard Shortcuts For 9 leader {{{5
-let g:unite_source_menu_menus.9LeaderKeyMaps = {'description': 'Custom mapped keyboard shortcuts with 9 leader    |9'}
+let g:unite_source_menu_menus.9LeaderKeyMaps = {'description': 'Custom mapped keyboard shortcuts with 9 leader               |9'}
 let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Ack                                                           9a', 'echo "User 9a to start the Ack prompt"'],
     \['➤ Buffer list                                                   9b', 'Unite buffer'],
@@ -654,6 +657,7 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Execute surrent selection                                    9es', 'ExecuteSelection'],
     \['➤ Find files,                                                  9ff', 'normal 9ff'],
     \['➤ Get Hex dump of binary file buffer                            9h', 'normal 9h'],
+    \['➤ Grep in Quickfix buffer                                       9g', 'echo "Use 9g to grep within the Quickfix buffer"'],
     \['➤ Increment visually selected column of numbers              <C-a>', 'echo "Use <C-a>"'],
     \['➤ Jump to ctag or word under the cursor                        9gt', 'normal 9gt'],
     \['➤ Jump to next UltiSnip edit point                          9<Tab>', 'echo "Use 9<Tab> to jump to the next editable snippet segment"'],
@@ -667,6 +671,8 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Remove trailing whitespaces                                   9W', 'normal 9W'],
     \['➤ Rerun last Python test                                       9rr', 'RerunLastTests'],
     \['➤ Resize windows                                        Arrow keys', 'echo "Use the arrow keys to resize windows"'],
+    \['➤ Restore the Quickfix buffer                                   9r', 'echo "Use 9r to restore the Quickfix buffer"'],
+    \['➤ Reverse Grep in Quickfix buffer                               9v', 'echo "Use 9v to reverse grep within the Quickfix buffer"'],
     \['➤ Save as root                                                :w!!', 'exe "write !sudo tee % >/dev/null"'],
     \['➤ Search folds                                                 9sf', 'Unite fold'],
     \['➤ Search jumps                                                 9sj', 'Unite jump'],
@@ -679,9 +685,9 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Test Django class                                            9dc', 'echo "Use 9dc"'],
     \['➤ Test Django file                                             9df', 'echo "Use 9df"'],
     \['➤ Test Django method                                           9dm', 'echo "Use 9dm"'],
+    \['➤ Test JavaScript all tests (Qunit)                            9ja', 'echo "Use 9ja"'],
     \['➤ Test JavaScript single method (Qunit)                        9jm', 'echo "Use 9jm"'],
     \['➤ Test JavaScript single test (Qunit)                          9jt', 'echo "Use 9jt"'],
-    \['➤ Test JavaScript all tests (Qunit)                            9ja', 'echo "Use 9ja"'],
     \['➤ Test Python class with Nose                                  9nc', 'echo "Use 9nc"'],
     \['➤ Test Python file with Nose                                   9nf', 'echo "Use 9nf"'],
     \['➤ Test Python method with Nose                                 9nm', 'echo "Use 9nm"'],
@@ -711,11 +717,13 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Ack                                                     <Space>a', 'echo "User <Space>a to start the Ack prompt"'],
     \['➤ Activate EasyMotion                                     <Space>l', 'echo "Press Space l"'],
     \['➤ Buffer list                                             <Space>b', 'Unite buffer'],
+    \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
     \['➤ Edit UltiSnips snippet file                                 <F9>', 'normal 9ue'],
     \['➤ Edit configuration file (vimrc)                        <Space>ev', 'edit $MYVIMRC'],
     \['➤ Execute Current Buffer                                 <Space>eb', 'ExecuteBuffer'],
     \['➤ Execute Current Selection                              <Space>es', 'ExecuteSelection'],
     \['➤ Find files,                                            <Space>ff', 'normal 9ff'],
+    \['➤ Grep in Quickfix buffer                                 <Space>g', 'echo "Use <Space>g to grep within the Quickfix buffer"'],
     \['➤ Increment visually selected column of numbers              <C-a>', 'echo "Use <C-a>"'],
     \['➤ Jump to ctag or word under the cursor                   <Space>j', 'normal 9gt'],
     \['➤ Jump to next UltiSnip edit point                           <F10>', 'echo "Use <F10> to jump to the next editable snippet segment"'],
@@ -727,6 +735,8 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Rerun Last Python Test                                 <Space>ta', 'RerunLastTests'],
     \['➤ Rerun Last Vector test file                            <Space>rv', 'echo "Use <Space>rv to rerun the last vector test file"'],
     \['➤ Resize windows                                        Arrow keys', 'echo "Use the arrow keys to resize windows"'],
+    \['➤ Restore the Quickfix buffer                             <Space>r', 'echo "Use <Space>r to restore the Quickfix buffer"'],
+    \['➤ Reverse Grep in Quickfix buffer                         <Space>v', 'echo "Use <Space>v to reverse grep within the Quickfix buffer"'],
     \['➤ Run all Qunit tests                                    <Space>tf', 'echo "Use <Space>tf to run all the Qunit tests for current project"'],
     \['➤ Save as root                                                :w!!', 'exe "write !sudo tee % >/dev/null"'],
     \['➤ Surround the word with a punctuation mark               <space>s', 'normal ysiw'],
@@ -753,12 +763,11 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Visual find and replace over full file                 <Space>fr', 'call VisualFindAndReplace()'],
     \['➤ Visual find and replace over visual selection          <Space>fr', 'call VisualFindAndReplaceWithSelection()'],
     \['➤ Wrap word under cursor with method                     <Space>ww', 'normal 9ww'],
-    \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
     \]
 nnoremap <silent>[menu]<Space> :Unite -silent -winheight=17 -start-insert menu:SpaceLeaderKeyMaps<CR>
 " }}}5
 " Plugin Keyboard Shortcuts {{{5
-let g:unite_source_menu_menus.PluginKeyMaps = {'description': 'Keyboard shortcuts mapped by 3rd party plugins     |p'}
+let g:unite_source_menu_menus.PluginKeyMaps = {'description': 'Keyboard shortcuts mapped by 3rd party plugins                |p'}
 let g:unite_source_menu_menus.PluginKeyMaps.command_candidates = [
     \['➤ Replace in quickfix                                   :Qfreplace', 'echo "Use :Qfreplace"'],
     \['➤ Activate EasyAlign in visual mode (<C-x> for regex)        Enter', 'echo "Press Enter"'],
@@ -766,7 +775,7 @@ let g:unite_source_menu_menus.PluginKeyMaps.command_candidates = [
 nnoremap <silent>[menu]p :Unite -silent -winheight=17 -start-insert menu:PluginKeyMaps<CR>
 " }}}5
 " Default Vim Keyboard Shortcuts {{{5
-let g:unite_source_menu_menus.BuiltInKeyMaps = {'description': 'Lesser known/used builtin vim keybindings         |b'}
+let g:unite_source_menu_menus.BuiltInKeyMaps = {'description': 'Lesser known/used builtin vim keybindings                    |b'}
 let g:unite_source_menu_menus.BuiltInKeyMaps.command_candidates = [
     \['➤ Show current char info                                        ga', 'normal ga'],
     \]
