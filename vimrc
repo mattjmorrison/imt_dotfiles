@@ -94,11 +94,11 @@ NeoBundle 'amdt/vim-niji'                                                       
 NeoBundle 'lukaszkorecki/CoffeeTags'                                                               " Ctags generator for CoffeScript
 NeoBundle 'tpope/vim-dispatch'                                                                     " Asynchronous build and test dispatcher
 NeoBundle 'kien/ctrlp.vim'                                                                         " Because I just can't get unit to work all the way :(
-NeoBundle '~/dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}                                 " Ack in a specific directory from within nerdtree
-NeoBundle '~/dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}                           " Allow easy navigation between tmux and vim splits
-NeoBundle '~/dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}                                  " Ack son
-NeoBundle '~/dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                        " Add grep functionality to the quickfix buffer
-NeoBundle '~/dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                           " Add the ability to link between wiki (markdown) files
+NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}                             " Ack in a specific directory from within nerdtree
+NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}                       " Allow easy navigation between tmux and vim splits
+NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}                              " Ack son
+NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                    " Add grep functionality to the quickfix buffer
+NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
 " }}}2
 " Auto install the plugins {{{2
