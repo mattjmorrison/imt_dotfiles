@@ -269,6 +269,8 @@ imap <C-f> <C-o>l
 imap <C-b> <C-o>h
 " --- Strip trailing whitespace
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+inoremap <F10> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
+nnoremap <F9> :UltiSnipsEdit<CR>
 
 function! TestVector()
     let g:test_commad = '!python src/manage.py test test ' . expand('%:p')
@@ -709,14 +711,14 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Ack                                                     <Space>a', 'echo "User <Space>a to start the Ack prompt"'],
     \['➤ Activate EasyMotion                                     <Space>l', 'echo "Press Space l"'],
     \['➤ Buffer list                                             <Space>b', 'Unite buffer'],
-    \['➤ Edit UltiSnips snippet file                                  9ue', 'normal 9ue'],
+    \['➤ Edit UltiSnips snippet file                                 <F9>', 'normal 9ue'],
     \['➤ Edit configuration file (vimrc)                        <Space>ev', 'edit $MYVIMRC'],
     \['➤ Execute Current Buffer                                 <Space>eb', 'ExecuteBuffer'],
     \['➤ Execute Current Selection                              <Space>es', 'ExecuteSelection'],
     \['➤ Find files,                                            <Space>ff', 'normal 9ff'],
     \['➤ Increment visually selected column of numbers              <C-a>', 'echo "Use <C-a>"'],
     \['➤ Jump to ctag or word under the cursor                   <Space>j', 'normal 9gt'],
-    \['➤ Jump to next UltiSnip edit point                          9<Tab>', 'echo "Use 9<Tab> to jump to the next editable snippet segment"'],
+    \['➤ Jump to next UltiSnip edit point                           <F10>', 'echo "Use <F10> to jump to the next editable snippet segment"'],
     \['➤ New horizontal split                                    <Space>-', 'split'],
     \['➤ New vertical split                                      <Space>\', 'vsplit'],
     \['➤ Open NERDTree focused in current directory             <Space>nt', 'NERDTreeFind'],
@@ -745,7 +747,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Toggle quickfix                                         <Space>q', 'call QuickfixToggle()'],
     \['➤ Toggle spell checking                                  <Space>sp', 'setlocal spell!'],
     \['➤ Toggle visual undo tree                                 <Space>u', 'GundoToggle'],
-    \['➤ Trigger UltiSnip snippet expansion                        9<Tab>', 'echo "Use 9<Tab> to expand a snippet"'],
+    \['➤ Trigger UltiSnip snippet expansion                         <F10>', 'echo "Use <F10> to expand a snippet"'],
     \['➤ Turn off search highlighting                        <Space><ESC>', 'nohlsearch'],
     \['➤ Undersocre Python test name                            <Space>us', 'normal 9us'],
     \['➤ Visual find and replace over full file                 <Space>fr', 'call VisualFindAndReplace()'],
@@ -1006,6 +1008,14 @@ function! MyJumpTo()
     else
         :exe "norm \<C-]>"
     endif
+endfunction
+" }}}2
+" UltiSnips mapping for multi trigger options {{{2
+"-----------------------------------------------------------------------------------
+let g:ulti_expand_or_jump_res = 0 "default value, just set once
+function! Ulti_ExpandOrJump_and_getRes()
+    call UltiSnips#ExpandSnippetOrJump()
+    return g:ulti_expand_or_jump_res
 endfunction
 " }}}2
 " }}}1
