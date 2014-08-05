@@ -11,6 +11,7 @@ vim/bundle/tagbar/*
 vim/bundle/vim-fugitive/*
 vim/bundle/vim-javascript/*
 vim/bundle/vundle/*
+vim/tmp/*
 
 .DS_Store
 Mac/.DS_Store
