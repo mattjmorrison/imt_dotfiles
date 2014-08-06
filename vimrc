@@ -265,11 +265,15 @@ autocmd BufReadPost quickfix nnoremap <buffer> <Space>g :GrepQuickfix<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> <Space>v :GrepQuickfixV<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> <Space>r :QuickfixRestore<CR>
 " --- Emacs keys in insert mode
-" May the programming gods forgive me for these four lines
-imap <C-e> <C-o>$
+" May the programming gods forgive me for this
+imap <C-e> <End>
 imap <C-a> <C-o>0
-imap <C-f> <C-o>l
-imap <C-b> <C-o>h
+imap <C-f> <Right>
+imap <C-b> <Left>
+imap <C-p> <Up>
+imap <C-n> <Down>
+imap <Esc>f <C-o>W
+imap <Esc>b <C-o>B
 " --- Strip trailing whitespace
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 inoremap <F10> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
