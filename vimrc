@@ -77,7 +77,6 @@ NeoBundle 'justinmk/vim-sneak'                                                  
 NeoBundle 'JarrodCTaylor/vim-shell-executor'                                                       " Execute any code from within vim buffers
 NeoBundle 'https://github.com/mattn/emmet-vim/'                                                    " Formally zen coding
 NeoBundle 'junegunn/vim-easy-align'                                                                " Simple easy to use alignment plugin
-NeoBundle 'marijnh/tern_for_vim'                                                                   " Auto complete for JavaScript requires tern npm install
 NeoBundle 'kchmck/vim-coffee-script'                                                               " CoffeeScript support syntax, indenting, etc
 NeoBundle 'JarrodCTaylor/vim-qunit-special-blend'                                                  " Run qunit tests
 NeoBundle 'mustache/vim-mustache-handlebars'                                                       " Handlebars syntax highlighting
@@ -100,6 +99,7 @@ NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}           
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                    " Add grep functionality to the quickfix buffer
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'bkad/CamelCaseMotion'
 " }}}2
 " Auto install the plugins {{{2
 
@@ -255,6 +255,7 @@ map <Leader>cf :call CopyFile()<CR>
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
 inoremap jj <ESC>
 inoremap jk <ESC>
+nnoremap <Leader>y :Unite history/yank<CR><Esc>
 nnoremap<Leader>tn :set relativenumber!<CR>
 nmap<Leader>s ysiw
 nnoremap<Leader>u :GundoToggle<CR>
@@ -348,8 +349,8 @@ nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
-nnoremap <Leader>ff :CtrlP<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>ff :Unite -start-insert -buffer-name=files -winheight=18 file_rec/async<cr>
+nnoremap <Leader>b :Unite buffer<CR>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
@@ -589,6 +590,18 @@ let g:niji_dark_colours = [
     \ ]
 nnoremap <Leader>rc :call niji#highlight()<CR>
 " }}}2
+" CamelCaseMotion {2
+"-----------------------------------------------------------------------------------
+map <silent> W <Plug>CamelCaseMotion_w
+map <silent> E <Plug>CamelCaseMotion_e
+map <silent> B <Plug>CamelCaseMotion_b
+omap <silent> iW <Plug>CamelCaseMotion_iw
+xmap <silent> iW <Plug>CamelCaseMotion_iw
+omap <silent> iE <Plug>CamelCaseMotion_ie
+xmap <silent> iE <Plug>CamelCaseMotion_ie
+omap <silent> iB <Plug>CamelCaseMotion_ib
+xmap <silent> iB <Plug>CamelCaseMotion_ib
+" }2
 " Unite {{{2
 "-------------------------------------------------------------------------
 " Unite global variables and general settings {{{3
@@ -767,6 +780,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Visual find and replace over full file                 <Space>fr', 'call VisualFindAndReplace()'],
     \['➤ Visual find and replace over visual selection          <Space>fr', 'call VisualFindAndReplaceWithSelection()'],
     \['➤ Wrap word under cursor with method                     <Space>ww', 'normal 9ww'],
+    \['➤ Yank history                                            <Space>y', 'Unite history/yank'],
     \]
 nnoremap <silent>[menu]<Space> :Unite -silent -winheight=17 -start-insert menu:SpaceLeaderKeyMaps<CR>
 " }}}5
