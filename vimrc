@@ -269,8 +269,6 @@ imap <C-f> <Right>
 imap <C-b> <Left>
 imap <C-p> <Up>
 imap <C-n> <Down>
-imap <Esc>f <C-o>W
-imap <Esc>b <C-o>B
 " --- Strip trailing whitespace
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 inoremap <F10> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
