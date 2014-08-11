@@ -93,6 +93,7 @@ NeoBundle 'amdt/vim-niji'                                                       
 NeoBundle 'lukaszkorecki/CoffeeTags'                                                               " Ctags generator for CoffeScript
 NeoBundle 'tpope/vim-dispatch'                                                                     " Asynchronous build and test dispatcher
 NeoBundle 'kien/ctrlp.vim'                                                                         " Because I just can't get unit to work all the way :(
+NeoBundle 'takac/vim-hardtime'                                                                     " Muhahahahaha oh their faces. I can taste their tears
 NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}                             " Ack in a specific directory from within nerdtree
 NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}                       " Allow easy navigation between tmux and vim splits
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}                              " Ack son
@@ -250,6 +251,7 @@ nnoremap <Leader>q :call QuickfixToggle()<CR>
 nnoremap <Leader>ed :vsplit $MYVIMRC<CR>
 let g:EasyMotion_leader_key = '<Leader>l'
 nnoremap <Leader>j :call MyJumpTo()<CR>
+nnoremap <Leader>th :HardTimeToggle<CR>
 map <Leader>rf :call RenameFile()<CR>
 map <Leader>cf :call CopyFile()<CR>
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
@@ -384,6 +386,7 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <Leader>sc :!aspell -c %<CR>
 nnoremap <leader>h :%!xxd<CR>
 nnoremap <Leader>gt :call MyJumpTo()<CR>
+nnoremap <Leader>th :HardTimeToggle<CR>
 " --- Select tag if more than one option exists else jump to tag
 nnoremap <Leader>st g<C-]>
 " --- Shortcuts for quickfix as it was broken for some reason
@@ -590,7 +593,7 @@ let g:niji_dark_colours = [
     \ ]
 nnoremap <Leader>rc :call niji#highlight()<CR>
 " }}}2
-" CamelCaseMotion {2
+" CamelCaseMotion {{{2
 "-----------------------------------------------------------------------------------
 map <silent> W <Plug>CamelCaseMotion_w
 map <silent> E <Plug>CamelCaseMotion_e
@@ -601,7 +604,14 @@ omap <silent> iE <Plug>CamelCaseMotion_ie
 xmap <silent> iE <Plug>CamelCaseMotion_ie
 omap <silent> iB <Plug>CamelCaseMotion_ib
 xmap <silent> iB <Plug>CamelCaseMotion_ib
-" }2
+" }}}2
+" HardTime {{{2
+let g:list_of_normal_keys = ["h", "j", "k", "l"]
+let g:hardtime_ignore_buffer_patterns = ["vimrc", "NERD.*", ".*markdown", ".*md"]
+let g:hardtime_maxcount = 2
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_default_on = 1
+" }}}2
 " Unite {{{2
 "-------------------------------------------------------------------------
 " Unite global variables and general settings {{{3
@@ -712,6 +722,7 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Toggle Syntastic                                             9ts', 'SyntasticToggleMode'],
     \['➤ Toggle Tagbar                                                9tb', 'TagbarToggle'],
     \['➤ Toggle checkbox                                              9tc', 'normal 9tc'],
+    \['➤ Toggle hard mode                                             9th', 'normal 9th'],
     \['➤ Toggle indentation guildes                                   9ig', 'normal 9ig'],
     \['➤ Toggle line numbers                                          9tn', 'normal 9tn'],
     \['➤ Toggle quickfix                                               9q', 'call QuickfixToggle()'],
@@ -770,6 +781,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Test Vector file                                       <Space>tv', 'echo "Use <Space>tv"'],
     \['➤ Toggle NERDTree (open/close)                            <Space>d', 'NERDTreeToggle'],
     \['➤ Toggle Tagbar                                          <Space>tb', 'TagbarToggle'],
+    \['➤ Toggle hard mode                                       <Space>th', 'normal 9th'],
     \['➤ Toggle line numbers                                    <Space>tn', 'normal 9tn'],
     \['➤ Toggle quickfix                                         <Space>q', 'call QuickfixToggle()'],
     \['➤ Toggle spell checking                                  <Space>sp', 'setlocal spell!'],
