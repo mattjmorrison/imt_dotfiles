@@ -249,8 +249,6 @@ nnoremap <Leader>th :HardTimeToggle<CR>
 map <Leader>rf :call RenameFile()<CR>
 map <Leader>cf :call CopyFile()<CR>
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
-inoremap jj <ESC>
-inoremap jk <ESC>
 nnoremap <Leader>y :Unite history/yank<CR><Esc>
 nnoremap<Leader>tn :set relativenumber!<CR>
 nmap<Leader>s ysiw
