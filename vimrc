@@ -243,7 +243,7 @@ nnoremap<Leader>ta :RerunLastTests<CR>
 nmap <Leader><Leader> <c-^>
 nnoremap <Leader>q :call QuickfixToggle()<CR>
 nnoremap <Leader>ed :vsplit $MYVIMRC<CR>
-let g:EasyMotion_leader_key = '<Leader>l'
+let g:EasyMotion_leader_key = '<Space>l'
 nnoremap <Leader>j :call MyJumpTo()<CR>
 nnoremap <Leader>th :HardTimeToggle<CR>
 map <Leader>rf :call RenameFile()<CR>
@@ -341,8 +341,8 @@ nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Ack!<space>
-nnoremap <Leader>ff :Unite -start-insert -buffer-name=files -winheight=18 file_rec/async<cr>
-nnoremap <Leader>b :Unite buffer<CR>
+nnoremap <Leader>ff :CtrlP<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
