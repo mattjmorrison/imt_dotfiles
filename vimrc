@@ -233,6 +233,7 @@ map <Leader>tw :DjangoTestApp<CR>
 map <Leader>tf :DjangoTestFile<CR>
 map <Leader>tc :DjangoTestClass<CR>
 map <Leader>tm :DjangoTestMethod<CR>
+nnoremap <Leader>y :Unite history/yank<CR><Esc>
 nnoremap <Leader>ww :WrapWith<CR>
 nnoremap <Leader>eb :ExecuteBuffer<CR>
 vnoremap <Leader>es :ExecuteSelection<CR>
