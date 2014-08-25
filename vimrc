@@ -162,6 +162,7 @@ set shell=bash                         " Required to let zsh know how to run thi
 set ttimeoutlen=50                     " Fix delay when escaping from insert with Esc
 set noshowmode                         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set synmaxcol=256                      " Don't syntax highlight long lines
+set nosol                              " Keep cursor in the same column if possible for G, gg, etc.
 " }}}2
 " Minimal number of screen lines to keep above and below the cursor {{{2
 "-----------------------------------------------------------------------------------
