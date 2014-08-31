@@ -88,9 +88,8 @@ NeoBundle 'lukaszkorecki/CoffeeTags'                                            
 NeoBundle 'tpope/vim-dispatch'                                                                     " Asynchronous build and test dispatcher
 NeoBundle 'kien/ctrlp.vim'                                                                         " Because I just can't get unit to work all the way :(
 NeoBundle 'takac/vim-hardtime'                                                                     " Muhahahahaha oh their faces. I can taste their tears
-NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}                             " Ack in a specific directory from within nerdtree
+NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-search', {'type': 'nosync'}                          " Search in a specific directory from within nerdtree
 NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}                       " Allow easy navigation between tmux and vim splits
-NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}                              " Ack son
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                    " Add grep functionality to the quickfix buffer
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -226,7 +225,7 @@ nnoremap <Leader>- :split<CR>
 nnoremap <Leader>ff :CtrlP<CR>
 map <Leader>fb :CtrlPBuffer<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
-map <Leader>a :Ack!<space>
+nnoremap <Leader>a :Search<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
 map <Leader>d :NERDTreeToggle<CR>
 nmap <Leader>nt :NERDTreeFind<CR>
@@ -342,7 +341,7 @@ nnoremap <Leader>no :NERDTreeFind<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
-nnoremap <Leader>a :Ack!<space>
+nnoremap <Leader>a :Search<CR>
 nnoremap <Leader>ff :CtrlP<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
@@ -598,6 +597,7 @@ omap <silent> iB <Plug>CamelCaseMotion_ib
 xmap <silent> iB <Plug>CamelCaseMotion_ib
 " }}}2
 " HardTime {{{2
+"-------------------------------------------------------------------------
 let g:list_of_normal_keys = ["h", "j", "k", "l", "W", "w", "B", "b"]
 let g:hardtime_ignore_buffer_patterns = ["vimrc", "NERD.*", ".*markdown", ".*md"]
 let g:hardtime_maxcount = 4
@@ -666,7 +666,7 @@ nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR><Esc>
 " Keyboard Shortcuts For 9 leader {{{5
 let g:unite_source_menu_menus.9LeaderKeyMaps = {'description': 'Custom mapped keyboard shortcuts with 9 leader               |9'}
 let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
-    \['➤ Ack                                                           9a', 'echo "User 9a to start the Ack prompt"'],
+    \['➤ Search                                                        9a', 'echo "Use 9a to start the search prompt"'],
     \['➤ Buffer list                                                   9b', 'Unite buffer'],
     \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
     \['➤ Edit UltiSnips snippet file                                  9ue', 'normal 9ue'],
@@ -734,7 +734,7 @@ nnoremap <silent>[menu]9 :Unite -silent -winheight=17 -start-insert menu:9Leader
 " Keyboard Shortcuts For <Space> leader {{{5
 let g:unite_source_menu_menus.SpaceLeaderKeyMaps = {'description': 'Custom mapped keyboard shortcuts with <Space> leader     |<Space>'}
 let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
-    \['➤ Ack                                                     <Space>a', 'echo "User <Space>a to start the Ack prompt"'],
+    \['➤ Search                                                  <Space>a', 'echo "Use <Space>a to start the search prompt"'],
     \['➤ Activate EasyMotion                                     <Space>l', 'echo "Press Space l"'],
     \['➤ Buffer list                                             <Space>b', 'Unite buffer'],
     \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
@@ -1007,10 +1007,10 @@ import vim
 from itertools import dropwhile
 
 def python_input(message = 'input'):
-  vim.command('call inputsave()')
-  vim.command("let user_input = input('" + message + ": ')")
-  vim.command('call inputrestore()')
-  return vim.eval('user_input')
+    vim.command('call inputsave()')
+    vim.command("let user_input = input('" + message + ": ')")
+    vim.command('call inputrestore()')
+    return vim.eval('user_input')
 
 def wrap_with():
     the_chars = {"[": "]", "['": "']", '["': '"]', "(": ")", "('": "')", '("': '")', "": ")"}
@@ -1048,5 +1048,37 @@ function! Ulti_ExpandOrJump_and_getRes()
     call UltiSnips#ExpandSnippetOrJump()
     return g:ulti_expand_or_jump_res
 endfunction
+" }}}2
+" The Silver Searcher {{{2
+"-----------------------------------------------------------------------------------
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c:%m
+endif
+
+function! TheSilverSearcher()
+python << endPython
+
+import vim
+
+def python_input(message = 'input'):
+  vim.command('call inputsave()')
+  vim.command("let user_input = input('" + message + ": ')")
+  vim.command('call inputrestore()')
+  return vim.eval('user_input')
+
+def silver_search():
+    search_args = python_input("Search For")
+    vim.command('silent grep! "{}"'.format(search_args))
+    vim.command('redraw!')
+    vim.command('redrawstatus!')
+    vim.command('copen')
+
+silver_search()
+
+endPython
+endfunction
+
+command Search call TheSilverSearcher()
 " }}}2
 " }}}1
