@@ -117,6 +117,10 @@ if [ "$(uname)" != "Darwin" ]; then
     stty -ixon
 fi
 # >>2
+# Search current directory, home directory and Projects folder <<2
+#-------------------------------------------------------------------------------
+CDPATH=".:~:~/Projects"
+# >>2
 # >>1
 
 # Setup antigen <<1
