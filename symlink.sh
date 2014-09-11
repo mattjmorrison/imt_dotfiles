@@ -25,6 +25,7 @@ sudo rm -rf ~/.ackrc > /dev/null 2>&1
 sudo rm -rf ~/README > /dev/null 2>&1
 sudo rm -rf ~/.antigen > /dev/null 2>&1
 sudo rm -rf ~/.antigen.zsh > /dev/null 2>&1
+sudo rm -rf ~/coffeelint.json > /dev/null 2>&1
 if [ "$(uname)" = "Darwin" ]; then
     sudo rm -rf ~/.config > /dev/null 2>&1
 fi
@@ -48,6 +49,7 @@ ln -s ~/imt_dotfiles/gitconfig ~/.gitconfig
 ln -s ~/imt_dotfiles/gemrc ~/.gemrc
 ln -s ~/imt_dotfiles/psqlrc ~/.psqlrc
 ln -s ~/imt_dotfiles/tigrc ~/.tigrc
+ln -s ~/imt_dotfiles/coffeelint.json ~/coffeelint.json
 
 echo -n "Would you like to configure your git name and email? (y/n) => "; read answer
 if [[ $answer = "Y" ]] || [[ $answer = "y" ]]; then
