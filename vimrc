@@ -738,7 +738,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps = {'description': 'Custom mappe
 let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Search                                                  <Space>a', 'echo "Use <Space>a to start the search prompt"'],
     \['➤ Activate EasyMotion                                     <Space>l', 'echo "Press Space l"'],
-    \['➤ Buffer list                                             <Space>b', 'Unite buffer'],
+    \['➤ Buffer list                                            <Space>fb', 'normal 9b'],
     \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
     \['➤ Edit UltiSnips snippet file                                 <F9>', 'normal 9ue'],
     \['➤ Edit configuration file (vimrc)                        <Space>ev', 'edit $MYVIMRC'],
