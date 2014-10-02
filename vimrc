@@ -89,7 +89,6 @@ NeoBundle 'tpope/vim-dispatch'                                                  
 NeoBundle 'kien/ctrlp.vim'                                                                         " Because I just can't get unit to work all the way :(
 NeoBundle 'takac/vim-hardtime'                                                                     " Muhahahahaha oh their faces. I can taste their tears
 NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-search', {'type': 'nosync'}                          " Search in a specific directory from within nerdtree
-NeoBundle '~/imt_dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}                       " Allow easy navigation between tmux and vim splits
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                    " Add grep functionality to the quickfix buffer
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -352,10 +351,6 @@ nnoremap <Leader>ts :SyntasticToggleMode<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
 nnoremap <Leader>us :call MakeUnderscore()<CR>
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 nnoremap <Leader>da :DjangoTestApp<CR>
 nnoremap <Leader>df :DjangoTestFile<CR>
 nnoremap <Leader>dc :DjangoTestClass<CR>
@@ -1086,5 +1081,20 @@ endPython
 endfunction
 
 command Search call TheSilverSearcher()
+" }}}2
+" Navigate Terminal Splits {{{2
+function! s:NavigateTermSplits(direction)
+  let windowNumber = winnr()
+  execute 'wincmd ' . a:direction
+  if windowNumber == winnr()
+    " We didn't move to a new vim split. Now try to move tmux splits
+    silent call system('tmux select-pane -' . tr(a:direction, 'hjkl', 'LDUR'))
+  endif
+endfunction
+
+nnoremap <silent> <C-h> :call <SID>NavigateTermSplits('h')<CR>
+nnoremap <silent> <C-j> :call <SID>NavigateTermSplits('j')<CR>
+nnoremap <silent> <C-k> :call <SID>NavigateTermSplits('k')<CR>
+nnoremap <silent> <C-l> :call <SID>NavigateTermSplits('l')<CR>
 " }}}2
 " }}}1
