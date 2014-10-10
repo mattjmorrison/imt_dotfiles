@@ -363,6 +363,8 @@ nnoremap <Leader>sc :!aspell -c %<CR>
 nnoremap <leader>h :%!xxd<CR>
 nnoremap <Leader>gt :call MyJumpTo()<CR>
 nnoremap <Leader>th :HardTimeToggle<CR>
+inoremap <Leader>c <C-x><C-o>
+nmap <Leader>em :call EditMacro()<CR> <Plug>em
 " --- Select tag if more than one option exists else jump to tag
 nnoremap <Leader>st g<C-]>
 " --- Shortcuts for quickfix as it was broken for some reason
@@ -651,11 +653,11 @@ nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR><Esc>
 " Keyboard Shortcuts For 9 leader {{{5
 let g:unite_source_menu_menus.9LeaderKeyMaps = {'description': 'Custom mapped keyboard shortcuts with 9 leader               |9'}
 let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
-    \['➤ Search                                                        9a', 'echo "Use 9a to start the search prompt"'],
     \['➤ Buffer list                                                   9b', 'Unite buffer'],
     \['➤ Choose colorscheme                                            |c', 'Unite colorscheme -auto-preview'],
     \['➤ Edit UltiSnips snippet file                                  9ue', 'normal 9ue'],
     \['➤ Edit configuration file (vimrc)                              9ev', 'edit $MYVIMRC'],
+    \['➤ Edit macro contents in specific register                     9em', 'normal 9em'],
     \['➤ Enter paste mode [exit with <Esc>]                            yp', 'normal yp'],
     \['➤ Execute current buffer                                       9eb', 'ExecuteBuffer'],
     \['➤ Execute surrent selection                                    9es', 'ExecuteSelection'],
@@ -678,6 +680,7 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Restore the Quickfix buffer                                   9r', 'echo "Use 9r to restore the Quickfix buffer"'],
     \['➤ Reverse Grep in Quickfix buffer                               9v', 'echo "Use 9v to reverse grep within the Quickfix buffer"'],
     \['➤ Save as root                                                :w!!', 'exe "write !sudo tee % >/dev/null"'],
+    \['➤ Search                                                        9a', 'echo "Use 9a to start the search prompt"'],
     \['➤ Search folds                                                 9sf', 'Unite fold'],
     \['➤ Search jumps                                                 9sj', 'Unite jump'],
     \['➤ Search lines in the current buffer                           9sb', 'Unite line'],
@@ -690,9 +693,9 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Test Django file                                             9df', 'echo "Use 9df"'],
     \['➤ Test Django method                                           9dm', 'echo "Use 9dm"'],
     \['➤ Test JavaScript all tests (Qunit)                            9ja', 'echo "Use 9ja"'],
+    \['➤ Test JavaScript single asyncTest (Qunit)                     9js', 'echo "Use 9js"'],
     \['➤ Test JavaScript single method (Qunit)                        9jm', 'echo "Use 9jm"'],
     \['➤ Test JavaScript single test (Qunit)                          9jt', 'echo "Use 9jt"'],
-    \['➤ Test JavaScript single asyncTest (Qunit)                     9js', 'echo "Use 9js"'],
     \['➤ Test Python class with Nose                                  9nc', 'echo "Use 9nc"'],
     \['➤ Test Python file with Nose                                   9nf', 'echo "Use 9nf"'],
     \['➤ Test Python method with Nose                                 9nm', 'echo "Use 9nm"'],
@@ -710,6 +713,7 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Turn off search highlighting                              9<ESC>', 'nohlsearch'],
     \['➤ Undersocre Python test name                                  9us', 'normal 9us'],
     \['➤ Update Neobundle packages                                    9nu', 'normal 9nu'],
+    \['➤ Vim built in auto completion in inset mode                    9c', 'echo "Use 9c in insert mode to trigger the auto completion"'],
     \['➤ Visual find and replace over full file                       9fr', 'call VisualFindAndReplace()'],
     \['➤ Visual find and replace over visual selection                9fr', 'call VisualFindAndReplaceWithSelection()'],
     \['➤ Wrap word under cursor with method                           9ww', 'normal 9ww'],
@@ -1082,4 +1086,12 @@ nnoremap <silent> <C-j> :call <SID>NavigateTermSplits('j')<CR>
 nnoremap <silent> <C-k> :call <SID>NavigateTermSplits('k')<CR>
 nnoremap <silent> <C-l> :call <SID>NavigateTermSplits('l')<CR>
 " }}}2
+" Edit Macro {{{2
+"-----------------------------------------------------------------------------------
+function! EditMacro()
+  call inputsave()
+  let g:regToEdit = input('Register to edit: ')
+  call inputrestore()
+  execute "nnoremap <Plug>em :let @" . eval("g:regToEdit") . "='<C-R><C-R>" . eval("g:regToEdit")
+endfunction
 " }}}1
