@@ -21,24 +21,16 @@ set nocompatible
 
 " NeoBundle auto-installation and setup {{{1
 " Install and configure NeoBundle {{{2
-let iCanHazNeoBundle=1
-let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
-if !filereadable(neobundle_readme)
-    echo "Installing NeoBundle.."
-    echo ""
-    silent !mkdir -p $HOME/.vim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-    let iCanHazNeoBundle=0
-endif
+if !1 | finish | endif
 
-" Call NeoBundle
 if has('vim_starting')
-    set rtp+=$HOME/.vim/bundle/neobundle.vim/
+set nocompatible               " Be iMproved
+set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-call neobundle#rc(expand($HOME.'/.vim/bundle/'))
 
-" NeoBundle rules NeoBundle (needed!)
-NeoBundle 'Shougo/neobundle.vim'
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
 " }}}2
 " Bundles {{{2
 NeoBundle 'Shougo/vimproc', {'build': {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak'}} " Vimproc to asynchronously run commands (NeoBundle, Unite)
@@ -95,15 +87,8 @@ NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'bkad/CamelCaseMotion'
 " }}}2
 " Auto install the plugins {{{2
-
-" First-time plugins installation
-if iCanHazNeoBundle == 0
-    echo "Installing Bundles, please ignore key map error messages"
-    echo ""
-    :NeoBundleInstall
-endif
-
-" Check if all of the plugins are already installed, in other case ask if we want to install them
+call neobundle#end()
+filetype plugin indent on
 NeoBundleCheck
 " }}}2
 " }}}1
