@@ -1,0 +1,7 @@
+snippet psql "Postgres" !b
+PGPASSWORD=${1:password} psql ${2:database} -U ${3:user} -h ${4:host}
+endsnippet
+
+snippet mysql "MySQL" !b
+mysql ${1:database} -u ${2:user} -p${3:password} -h ${4:host} -t
+endsnippet
