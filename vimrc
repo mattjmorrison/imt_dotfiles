@@ -27,6 +27,11 @@ if has('vim_starting')
 set nocompatible               " Be iMproved
 set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
+
+if !filereadable(neobundle_readme)
+    silent !curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
+endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
