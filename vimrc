@@ -1064,10 +1064,11 @@ def python_input(message = 'input'):
 
 def silver_search():
     search_args = python_input("Search For")
-    vim.command('silent grep! "{}"'.format(search_args))
-    vim.command('redraw!')
-    vim.command('redrawstatus!')
-    vim.command('copen')
+    if search_args:
+        vim.command('silent grep! "{}"'.format(search_args))
+        vim.command('redraw!')
+        vim.command('redrawstatus!')
+        vim.command('copen')
 
 silver_search()
 
