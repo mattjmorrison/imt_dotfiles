@@ -335,8 +335,8 @@ nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
 nnoremap <Leader>a :Search<CR>
-nnoremap <Leader>ff :CtrlP<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>ff :Unite file file_rec/async -start-insert -buffer-name=files -winheight=18<CR>
+nnoremap <Leader>b :Unite buffer<CR>
 nnoremap <Leader>ts :SyntasticToggleMode<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
 nnoremap <Leader>rt :call RenewTagsFile()<CR>
@@ -611,17 +611,9 @@ let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
 let g:unite_source_buffer_time_format = '(%m-%d-%Y %H:%M:%S) '
 let g:unite_source_file_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
 let g:unite_source_directory_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
+let g:unite_source_rec_async_command= 'ag --nocolor --nogroup -g ""'
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.DS_Store/',
-      \ 'node_modules/',
-      \ '\.git/',
-      \ '\.bak',
-      \ '\.swp',
-      \ '\.pyc',
-      \ ], '\|'))
 " }}}3
 " Unite autocmd FileType settings {{{3
 autocmd FileType unite call s:unite_buffer_settings()
