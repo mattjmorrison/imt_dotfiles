@@ -90,6 +90,7 @@ NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'} 
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'bkad/CamelCaseMotion'
+NeoBundle 'Shougo/vimfiler.vim'
 " }}}2
 " Auto install the plugins {{{2
 call neobundle#end()
@@ -669,6 +670,7 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ New horizontal split                                          9-', 'split'],
     \['➤ New vertical split                                            9\', 'vsplit'],
     \['➤ Open NERDTree focused in current directory                   9no', 'NERDTreeFind'],
+    \['➤ Open Vimfiler                                                9vf', 'echo "Use 9vf"'],
     \['➤ Recolor the rainbow parentheses after sneak                  9rc', 'call VisualFindAndReplaceWithSelection()'],
     \['➤ Refresh Ctags                                                9rt', 'call RenewTagsFile()'],
     \['➤ Remove trailing whitespaces                                   9W', 'normal 9W'],
@@ -793,6 +795,27 @@ nnoremap <silent>[menu]b :Unite -silent -winheight=17 -start-insert menu:BuiltIn
 " }}}4
 " }}}3
 " }}}2
+" Vimfiler {{{2
+"-------------------------------------------------------------------------
+" nnoremap <Leader>vf :<C-u>VimFiler -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>vf :<C-u>VimFilerBufferDir -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_tree_leaf_icon = " "
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '✓'
+let g:vimfiler_readonly_file_icon = '✗'
+let g:vimfiler_ignore_pattern = '^\%(.git\|.DS_Store\)$'
+let g:vimfiler_time_format = '%m-%d-%y %H:%M:%S'
+
+autocmd FileType vimfiler nunmap <buffer> <C-l>
+autocmd FileType vimfiler nunmap <buffer> <C-j>
+autocmd FileType vimfiler nmap <buffer> <C-R> <Plug>(vimfiler_redraw_screen)
+autocmd FileType vimfiler nmap <buffer> <Leader>s :call VimFilerSearch()<CR>
+"autocmd FileType vimfiler nmap <buffer> c <Plug>(vimfiler_mark_current_line)<Plug>(vimfiler_copy_file)
+" }}} 2
 " }}}1
 
 " Misc Functions {{{1
@@ -1092,4 +1115,19 @@ function! EditMacro()
   call inputrestore()
   execute "nnoremap <Plug>em :let @" . eval("g:regToEdit") . "='<C-R><C-R>" . eval("g:regToEdit")
 endfunction
+" VimfilerSearch {{{2
+"-----------------------------------------------------------------------------------
+function! VimFilerSearch()
+    let currentDir = vimfiler#get_current_vimfiler().current_dir
+    let pattern = input("Search For: ")
+    if pattern == ''
+        echo 'Maybe another time...'
+        return
+    endif
+    exec 'silent grep! "'.pattern.'" '.currentDir
+    exec "redraw!"
+    exec "redrawstatus!"
+    exec "copen"
+endfunction
+" }}}2
 " }}}1
