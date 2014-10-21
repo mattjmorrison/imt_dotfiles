@@ -807,10 +807,9 @@ let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_file_icon = '-'
 let g:vimfiler_marked_file_icon = '✓'
 let g:vimfiler_readonly_file_icon = '✗'
-let g:vimfiler_ignore_pattern = '^\%(.git\|.DS_Store\)$'
 let g:vimfiler_time_format = '%m-%d-%y %H:%M:%S'
 let g:vimfiler_expand_jump_to_first_child = 0
-let g:vimfiler_ignore_pattern = '^\%(\.git\|\.DS_Store\|.pyc\)$'
+let g:vimfiler_ignore_pattern = '\.git\|\.DS_Store\|\.pyc'
 
 autocmd FileType vimfiler nunmap <buffer> <C-l>
 autocmd FileType vimfiler nunmap <buffer> <C-j>
