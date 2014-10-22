@@ -760,6 +760,15 @@ let g:unite_source_menu_menus.PluginKeyMaps = {'description': 'Keyboard shortcut
 let g:unite_source_menu_menus.PluginKeyMaps.command_candidates = [
     \['➤ Replace in quickfix                                   :Qfreplace', 'echo "Use :Qfreplace"'],
     \['➤ Activate EasyAlign in visual mode (<C-x> for regex)        Enter', 'echo "Press Enter"'],
+    \['➤ Vimfiler copy file(s)                    Select file(s) then "c"', 'echo "Select file(s) then c"'],
+    \['➤ Vimfiler delete file(s)                  Select file(s) then "d"', 'echo "Select file(s) then d"'],
+    \['➤ Vimfiler move file(s)                    Select file(s) then "m"', 'echo "Select file(s) then m"'],
+    \['➤ Vimfiler search dir                                           9s', 'echo "9s over desired dir"'],
+    \['➤ Vimfiler create file(s)                                        N', 'echo "Press N"'],
+    \['➤ Vimfiler create dirs(s)                                        K', 'echo "Press K"'],
+    \['➤ Vimfiler cd into or edit under cursor                          l', 'echo "Press l"'],
+    \['➤ Vimfiler switch to parrent directory                           h', 'echo "Press h"'],
+    \['➤ Vimfiler select files/dirs                                     x', 'echo "Press x"'],
     \]
 nnoremap <silent>[menu]p :Unite -silent -winheight=17 -start-insert menu:PluginKeyMaps<CR>
 " }}}5
@@ -796,8 +805,7 @@ autocmd FileType vimfiler nunmap <buffer> l
 autocmd FileType vimfiler nmap <buffer> l <Plug>(vimfiler_cd_or_edit)
 autocmd FileType vimfiler nmap <buffer> h <Plug>(vimfiler_switch_to_parent_directory)
 autocmd FileType vimfiler nmap <buffer> <C-R> <Plug>(vimfiler_redraw_screen)
-autocmd FileType vimfiler nmap <buffer> <Leader>s :call VimfilerSearch()<CR>
-autocmd FileType vimfiler nmap <buffer> <Leader>sd <Plug>(vimfiler_mark_current_line):call VimfilerSearch()<CR>
+autocmd FileType vimfiler nmap <buffer> <Leader>s <Plug>(vimfiler_mark_current_line):call VimfilerSearch()<CR>
 autocmd FileType vimfiler nmap <silent><buffer><expr> <CR> vimfiler#smart_cursor_map(
 \ "\<Plug>(vimfiler_expand_tree)",
 \ "\<Plug>(vimfiler_edit_file)")
