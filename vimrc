@@ -48,7 +48,6 @@ NeoBundle 'kopischke/unite-spell-suggest'                                       
 NeoBundle 'Shougo/neocomplete.vim'                                                                 " Auto completion framework. Requires that vim be compiled with lua support
 NeoBundle 'davidhalter/jedi-vim'                                                                   " Python autocompletion
 NeoBundle 'Raimondi/delimitMate'                                                                   " Auto close quotes, parens, brackets, etc
-NeoBundle 'scrooloose/nerdtree'                                                                    " File tree explorer and manager
 NeoBundle 'JarrodCTaylor/vim-256-color-schemes'                                                    " A variety of terminal based colorschemes
 NeoBundle 'majutsushi/tagbar'                                                                      " Display tags in a buffer ordered by class
 NeoBundle 'ervandew/supertab'                                                                      " Use tab for all completions
@@ -83,9 +82,7 @@ NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'                          
 NeoBundle 'amdt/vim-niji'                                                                          " Rainbow parentheses
 NeoBundle 'lukaszkorecki/CoffeeTags'                                                               " Ctags generator for CoffeScript
 NeoBundle 'tpope/vim-dispatch'                                                                     " Asynchronous build and test dispatcher
-NeoBundle 'kien/ctrlp.vim'                                                                         " Because I just can't get unit to work all the way :(
 NeoBundle 'takac/vim-hardtime'                                                                     " Muhahahahaha oh their faces. I can taste their tears
-NeoBundle '~/imt_dotfiles/vim/my-plugins/nerd-search', {'type': 'nosync'}                          " Search in a specific directory from within nerdtree
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}                    " Add grep functionality to the quickfix buffer
 NeoBundle '~/imt_dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}                       " Add the ability to link between wiki (markdown) files
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -216,13 +213,16 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
-nnoremap <Leader>ff :CtrlP<CR>
-map <Leader>fb :CtrlPBuffer<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>a :Search<CR>
 nnoremap <Leader><ESC> :nohlsearch<CR>
-map <Leader>d :NERDTreeToggle<CR>
-nmap <Leader>nt :NERDTreeFind<CR>
+nnoremap <Leader>ff :Unite file file_rec/async -start-insert -buffer-name=files -winheight=18<CR>
+nnoremap <Leader>fb :Unite buffer<CR>
+nnoremap <Leader>d :<C-u>VimFilerExplorer -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>nt :<C-u>VimFilerExplorer -split -simple -parent -winwidth=35 -no-quit -find<CR>
+autocmd FileType vimfiler nunmap <buffer> x
+autocmd FileType vimfiler nmap <buffer> x <Plug>(vimfiler_toggle_mark_current_line)
+autocmd FileType vimfiler vmap <buffer> x <Plug>(vimfiler_toggle_mark_selected_lines)
 map <Leader>tw :DjangoTestApp<CR>
 map <Leader>tf :DjangoTestFile<CR>
 map <Leader>tc :DjangoTestClass<CR>
@@ -330,8 +330,6 @@ let mapleader="9"
 let maplocalleader= '|'
 map ss :setlocal spell!<CR>
 map z= :Unite spell_suggest<CR><ESC>
-nnoremap <Leader>nt :NERDTreeToggle<CR>
-nnoremap <Leader>no :NERDTreeFind<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>- :split<CR>
@@ -438,17 +436,6 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
 " }}}2
-" Ctrlp configurations {{{2
-"-----------------------------------------------------------------------------------
-let g:ctrlp_custom_ignore = 'node_modules$\|xmlrunner$\|.DS_Store|.git|.bak|.swp|.pyc'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_max_height = 18
-let g:ctrlp_open_multiple_files = '1vjr'
-let g:ctrlp_buffer_func = { 'enter': 'MyCtrlPMappings' }
-func! MyCtrlPMappings()
- nnoremap <buffer> <silent> <F6> :call <sid>DeleteBuffer()<cr>
-endfunc
-" }}}2
 " Exuberant ctags configurations {{{2
 "-----------------------------------------------------------------------------------
 " Vim will look for a ctags file in the current directory and continue
@@ -456,13 +443,6 @@ endfunc
 "-----------------------------------------------------------------------------------
 " Enable ctags support
 set tags=./.ctags,.ctags;
-" }}}2
-" NERDTree configurations {{{2
-"-----------------------------------------------------------------------------------
-" Make NERDTree ignore .pyc files
-let NERDTreeIgnore = ['\.pyc$']
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
 " }}}2
 " Jedi configurations {{{2
 "-----------------------------------------------------------------------------------
@@ -473,7 +453,6 @@ let g:jedi#popup_on_dot = 0
 "-----------------------------------------------------------------------------------
 " Highlight the acsii banner with red font
 hi StartifyHeader ctermfg=124
-let g:ctrlp_reuse_window = 'startify'
 " Don't change the directory when opening a recent file with a shortcut
 let g:startify_change_to_dir = 0
 " Set the contents of the banner
@@ -551,7 +530,7 @@ nnoremap <Leader>ig :IndentLinesToggle<CR>
 let g:indentLine_enabled = 0
 let g:indentLine_char = '¦' "'┊'
 let g:indentLine_color_term = 239
-let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*', 'start*']
+let g:indentLine_bufNameExclude = ['_.*', 'start*']
 let g:indentLine_fileTypeExclude = ['text']
 " }}}2
 " Rainbow Parentheses (niji) settings {{{2
@@ -592,7 +571,7 @@ xmap <silent> iB <Plug>CamelCaseMotion_ib
 " HardTime {{{2
 "-------------------------------------------------------------------------
 let g:list_of_normal_keys = ["h", "j", "k", "l", "W", "w", "B", "b", "x"]
-let g:hardtime_ignore_buffer_patterns = ["vimrc", "NERD.*", ".*markdown", ".*md"]
+let g:hardtime_ignore_buffer_patterns = ["vimrc", ".*markdown", ".*md"]
 let g:hardtime_maxcount = 4
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_default_on = 1
@@ -669,8 +648,8 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Most recently used files                                      9m', 'Unite file_mru'],
     \['➤ New horizontal split                                          9-', 'split'],
     \['➤ New vertical split                                            9\', 'vsplit'],
-    \['➤ Open NERDTree focused in current directory                   9no', 'NERDTreeFind'],
-    \['➤ Open Vimfiler                                                9vf', 'echo "Use 9vf"'],
+    \['➤ Open Vimfiler focused in current directory                   9vs', 'echo "User 9vs"'],
+    \['➤ Toggle Vimfiler                                              9vf', 'echo "Use 9vf"'],
     \['➤ Recolor the rainbow parentheses after sneak                  9rc', 'call VisualFindAndReplaceWithSelection()'],
     \['➤ Refresh Ctags                                                9rt', 'call RenewTagsFile()'],
     \['➤ Remove trailing whitespaces                                   9W', 'normal 9W'],
@@ -698,7 +677,6 @@ let g:unite_source_menu_menus.9LeaderKeyMaps.command_candidates = [
     \['➤ Test Python class with Nose                                  9nc', 'echo "Use 9nc"'],
     \['➤ Test Python file with Nose                                   9nf', 'echo "Use 9nf"'],
     \['➤ Test Python method with Nose                                 9nm', 'echo "Use 9nm"'],
-    \['➤ Toggle NERDTree (open/close)                                 9nt', 'NERDTreeToggle'],
     \['➤ Toggle Syntastic                                             9ts', 'SyntasticToggleMode'],
     \['➤ Toggle Tagbar                                                9tb', 'TagbarToggle'],
     \['➤ Toggle checkbox                                              9tc', 'normal 9tc'],
@@ -738,7 +716,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Jump to next UltiSnip edit point                           <F10>', 'echo "Use <F10> to jump to the next editable snippet segment"'],
     \['➤ New horizontal split                                    <Space>-', 'split'],
     \['➤ New vertical split                                      <Space>\', 'vsplit'],
-    \['➤ Open NERDTree focused in current directory             <Space>nt', 'NERDTreeFind'],
+    \['➤ Open Vilfiler focused in current directory             <Space>nt', 'echo "Use <Space>nt"'],
     \['➤ Refresh Ctags                                          <Space>ri', 'call RenewTagsFile()'],
     \['➤ Remove trailing whitespaces                             <Space>W', 'normal 9W'],
     \['➤ Rerun Last Python Test                                 <Space>ta', 'RerunLastTests'],
@@ -760,7 +738,7 @@ let g:unite_source_menu_menus.SpaceLeaderKeyMaps.command_candidates = [
     \['➤ Test Qunit Module                                      <Space>tc', 'echo "Use <Space>tc"'],
     \['➤ Test Qunit Singled                                     <Space>tm', 'echo "Use <Space>tm"'],
     \['➤ Test Vector file                                       <Space>tv', 'echo "Use <Space>tv"'],
-    \['➤ Toggle NERDTree (open/close)                            <Space>d', 'NERDTreeToggle'],
+    \['➤ Toggle Vimfiler (open/close)                            <Space>d', 'echo "Use <Space>d"'],
     \['➤ Toggle Tagbar                                          <Space>tb', 'TagbarToggle'],
     \['➤ Toggle hard mode                                       <Space>th', 'normal 9th'],
     \['➤ Toggle line numbers                                    <Space>tn', 'normal 9tn'],
@@ -797,8 +775,9 @@ nnoremap <silent>[menu]b :Unite -silent -winheight=17 -start-insert menu:BuiltIn
 " }}}2
 " Vimfiler {{{2
 "-------------------------------------------------------------------------
-" nnoremap <Leader>vf :<C-u>VimFiler -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
-nnoremap <Leader>vf :<C-u>VimFilerBufferDir -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+" nnoremap <Leader>vf :<C-u>VimFilerBufferDir -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>vf :<C-u>VimFilerExplorer -split -simple -parent -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>vs :<C-u>VimFilerExplorer -split -simple -parent -winwidth=35 -no-quit -find<CR>
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_tree_leaf_icon = " "
@@ -813,8 +792,12 @@ let g:vimfiler_ignore_pattern = '\.git\|\.DS_Store\|\.pyc'
 
 autocmd FileType vimfiler nunmap <buffer> <C-l>
 autocmd FileType vimfiler nunmap <buffer> <C-j>
+autocmd FileType vimfiler nunmap <buffer> l
+autocmd FileType vimfiler nmap <buffer> l <Plug>(vimfiler_cd_or_edit)
+autocmd FileType vimfiler nmap <buffer> h <Plug>(vimfiler_switch_to_parent_directory)
 autocmd FileType vimfiler nmap <buffer> <C-R> <Plug>(vimfiler_redraw_screen)
-autocmd FileType vimfiler nmap <buffer> <Leader>s :call VimFilerSearch()<CR>
+autocmd FileType vimfiler nmap <buffer> <Leader>s :call VimfilerSearch()<CR>
+autocmd FileType vimfiler nmap <buffer> <Leader>sd <Plug>(vimfiler_mark_current_line):call VimfilerSearch()<CR>
 autocmd FileType vimfiler nmap <silent><buffer><expr> <CR> vimfiler#smart_cursor_map(
 \ "\<Plug>(vimfiler_expand_tree)",
 \ "\<Plug>(vimfiler_edit_file)")
@@ -1118,15 +1101,21 @@ function! EditMacro()
   call inputrestore()
   execute "nnoremap <Plug>em :let @" . eval("g:regToEdit") . "='<C-R><C-R>" . eval("g:regToEdit")
 endfunction
-" VimfilerSearch {{{2
+" VimfilerCurrentDir {{{2
 "-----------------------------------------------------------------------------------
-function! VimFilerSearch()
+function! VimfilerCurrentDir()
     let currentDir = vimfiler#get_current_vimfiler().original_files
     for dirItem in currentDir
         if dirItem.vimfiler__is_marked == 1
-            let dirToSearch = dirItem.action__path
+            return dirItem.action__path
         endif
     endfor
+endfunction
+" }}}2
+" VimfilerSearch {{{2
+"-----------------------------------------------------------------------------------
+function! VimfilerSearch()
+    let dirToSearch = VimfilerCurrentDir()
     let pattern = input("Search [".dirToSearch."] For: ")
     if pattern == ''
         echo 'Maybe another time...'
@@ -1136,6 +1125,13 @@ function! VimFilerSearch()
     exec "redraw!"
     exec "redrawstatus!"
     exec "copen"
+endfunction
+" }}}2
+" VimfilerChangeDir {{{2
+"-----------------------------------------------------------------------------------
+function! VimfilerChangeDir()
+    let dirToSearch = VimfilerCurrentDir()
+    call vimfiler#mappings#cd('file:'.dirToSearch)
 endfunction
 " }}}2
 " }}}1
