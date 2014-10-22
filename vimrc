@@ -1121,13 +1121,18 @@ endfunction
 " VimfilerSearch {{{2
 "-----------------------------------------------------------------------------------
 function! VimFilerSearch()
-    let currentDir = vimfiler#get_current_vimfiler().current_dir
-    let pattern = input("Search For: ")
+    let currentDir = vimfiler#get_current_vimfiler().original_files
+    for dirItem in currentDir
+        if dirItem.vimfiler__is_marked == 1
+            let dirToSearch = dirItem.action__path
+        endif
+    endfor
+    let pattern = input("Search [".dirToSearch."] For: ")
     if pattern == ''
         echo 'Maybe another time...'
         return
     endif
-    exec 'silent grep! "'.pattern.'" '.currentDir
+    exec 'silent grep! "'.pattern.'" '.dirToSearch
     exec "redraw!"
     exec "redrawstatus!"
     exec "copen"
