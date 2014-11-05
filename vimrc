@@ -798,6 +798,8 @@ autocmd FileType vimfiler nmap <buffer> l <Plug>(vimfiler_cd_or_edit)
 autocmd FileType vimfiler nmap <buffer> h <Plug>(vimfiler_switch_to_parent_directory)
 autocmd FileType vimfiler nmap <buffer> <C-R> <Plug>(vimfiler_redraw_screen)
 autocmd FileType vimfiler nmap <buffer> <Leader>s <Plug>(vimfiler_mark_current_line):call VimfilerSearch()<CR>
+autocmd FileType vimfiler nmap <buffer> { <Plug>(vimfiler_jump_first_child)
+autocmd FileType vimfiler nmap <buffer> } <Plug>(vimfiler_jump_last_child)
 autocmd FileType vimfiler nmap <silent><buffer><expr> <CR> vimfiler#smart_cursor_map(
 \ "\<Plug>(vimfiler_expand_tree)",
 \ "\<Plug>(vimfiler_edit_file)")
